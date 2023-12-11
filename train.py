@@ -51,10 +51,6 @@ def train(config):
     TS_p = meta[1].type(torch.FloatTensor).to(device)  # 7 dow + 1 (wd/we)
     TS_t = meta[2].type(torch.FloatTensor).to(device)  # 7 dow + 1 (wd/we)
     pois = meta[4].type(torch.FloatTensor).to(device)  # 7 dow + 1 (wd/we)
-    Ts_Y_str = meta[5]
-
-    print(Ts_Y_str)
-    print(X_c.shape, X_p.shape, X_t.shape, Y.shape, TS_c.shape, TS_p.shape, TS_t.shape, pois.shape)
 
     n_layer_spatial, n_layer_temporal, n_head_spatial, n_head_temporal, dim_feat = \
         int(config['stloglonet']['n_layer_spatial']), \
@@ -62,8 +58,6 @@ def train(config):
         int(config['stloglonet']['n_head_spatial']), \
         int(config['stloglonet']['n_head_temporal']), \
         int(config['stloglonet']['dim_feat'])
-
-    #dim_feat = max(n_head_spatial, n_head_temporal) * dim_feat_head
 
     model = STLoGloNet(len_conf=(len_c, len_p, len_t), n_c=3, n_poi=10, dim_feat=dim_feat, map_w=map_w, map_h=map_h,
                        dim_ts_feat=10, n_head_spatial=n_head_spatial, n_head_temporal=n_head_temporal,

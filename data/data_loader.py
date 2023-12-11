@@ -66,10 +66,6 @@ def load_data(config, T):
     timestamps_XT = [timestamp2vec(ts) for ts in timestamps_XT]
     timestamps_Y_str = timestamps_Y
     timestamps_Y = timestamp2vec(timestamps_Y)
-    #print(timestamps_XC[1])
-    #print(timestamps_XP[1])
-    #print(timestamps_XT[1])
-    #print(timestamps_Y[1])
 
     XC_train, XP_train, XT_train, Y_train = XC[:-len_test], XP[:-len_test], XT[:-len_test], Y[:-len_test]
     TS_c_train, TS_p_train, TS_t_train, TS_Y_train, TS_Y_train_str = \

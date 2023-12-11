@@ -21,9 +21,7 @@ def create_f_name(config, T):
                          config['data']['city'] + '_outflow_' + str(config['grid']['size']) +
                          '_' + str(str(T) + '.pkl'))
 
-    f_event = config['data']['dir'] + 'events_by_impact.pkl'
-
-    return f_vol, f_inflow, f_outflow, f_event
+    return f_vol, f_inflow, f_outflow
 
 
 def load_pickle(f_name):
@@ -34,8 +32,8 @@ def load_pickle(f_name):
 
 
 def read_data(config, T):
-    f_vol, f_inflow, f_outflow, f_event = create_f_name(config, T)
-    f_pre_vol, f_pre_inflow, f_pre_outflow, _ = create_f_name(config, T)
+    f_vol, f_inflow, f_outflow = create_f_name(config, T)
+    f_pre_vol, f_pre_inflow, f_pre_outflow = create_f_name(config, T)
 
     volume = collections.OrderedDict(sorted(load_pickle(f_vol).items()))
     inflow = collections.OrderedDict(sorted(load_pickle(f_inflow).items()))
@@ -45,38 +43,9 @@ def read_data(config, T):
     pre_inflow = collections.OrderedDict(sorted(load_pickle(f_pre_inflow).items()))
     pre_outflow = collections.OrderedDict(sorted(load_pickle(f_pre_outflow).items()))
 
-    #event = collections.OrderedDict(sorted(load_pickle(f_event).items()))
     pois = load_pickle(config['data']['dir'] + '/hann_poi_1km.pkl')
 
     return volume, inflow, outflow, pre_volume, pre_inflow, pre_outflow, pois
-
-
-def center_and_normalize(data, len_test):
-    keys = data.keys()
-    stacked_data = np.stack(list(data.values()))
-    print(stacked_data.shape)
-
-    # extract training data and compute mean
-    data_train = stacked_data[:-len_test]
-    data_mean = np.mean(data_train, axis=0)
-    data_train = data_train - data_mean
-    print(data_train.shape, data_train.reshape(-1, 1).shape)
-
-    # fit minmax scaler
-    mmn = MinMaxScaler(feature_range=(-1, 1))
-    mmn.fit(data_train.reshape(-1, 1))
-    print("min:", mmn.data_min_, "max:", mmn.data_max_)
-
-    # subtract mean from complete data
-    stacked_data = stacked_data - data_mean
-    org_shape = stacked_data.shape
-
-    # normalize
-    normalized_data = mmn.transform(stacked_data.reshape(-1, 1)).reshape(org_shape)
-    normalized_data = collections.OrderedDict(zip(keys, list(normalized_data)))
-
-    return mmn, normalized_data, data_mean
-
 
 
 def normalize_data(data, len_test):

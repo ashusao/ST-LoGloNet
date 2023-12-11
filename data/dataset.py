@@ -1,5 +1,3 @@
-import sys
-
 from torch.utils import data
 
 from .data_loader import load_data
