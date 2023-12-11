@@ -25,13 +25,12 @@ def valid(model, val_generator, device, dataset=None):
     mean_rmse_loss_outflow = []
 
     for i, (X_c, X_p, X_t, Y, meta) in enumerate(val_generator):
-        X_c = X_c[:, :, :, :, :].type(torch.FloatTensor).to(device)
-        X_p = X_p[:, :, :, :, :].type(torch.FloatTensor).to(device)
-        X_t = X_t[:, :, :, :, :].type(torch.FloatTensor).to(device)
-        TS_c = meta[0].type(torch.FloatTensor).to(device)  # 7 dow + 1 (wd/we)
-        TS_p = meta[1].type(torch.FloatTensor).to(device)  # 7 dow + 1 (wd/we)
-        TS_t = meta[2].type(torch.FloatTensor).to(device)  # 7 dow + 1 (wd/we)
-        TS_Y = meta[3][:, :8].type(torch.FloatTensor).to(device)  # 7 dow + 1 (wd/we)
+        X_c = X_c.type(torch.FloatTensor).to(device)
+        X_p = X_p.type(torch.FloatTensor).to(device)
+        X_t = X_t.type(torch.FloatTensor).to(device)
+        TS_c = meta[0].type(torch.FloatTensor).to(device)
+        TS_p = meta[1].type(torch.FloatTensor).to(device)
+        TS_t = meta[2].type(torch.FloatTensor).to(device)
         pois = meta[4].type(torch.FloatTensor).to(device)
         Y = Y.type(torch.FloatTensor).to(device)
 

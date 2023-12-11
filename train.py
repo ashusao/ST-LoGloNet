@@ -44,13 +44,13 @@ def train(config):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     X_c, X_p, X_t, Y, meta = next(iter(train_generator))
-    X_c = X_c[:, :, :, :, :].type(torch.FloatTensor).to(device)  # 0 channel: volume
-    X_p = X_p[:, :, :, :, :].type(torch.FloatTensor).to(device)  # 0 channel: volume
-    X_t = X_t[:, :, :, :, :].type(torch.FloatTensor).to(device)  # 0 channel: volume
-    TS_c = meta[0].type(torch.FloatTensor).to(device)  # 7 dow + 1 (wd/we)
-    TS_p = meta[1].type(torch.FloatTensor).to(device)  # 7 dow + 1 (wd/we)
-    TS_t = meta[2].type(torch.FloatTensor).to(device)  # 7 dow + 1 (wd/we)
-    pois = meta[4].type(torch.FloatTensor).to(device)  # 7 dow + 1 (wd/we)
+    X_c = X_c.type(torch.FloatTensor).to(device)
+    X_p = X_p.type(torch.FloatTensor).to(device)
+    X_t = X_t.type(torch.FloatTensor).to(device)
+    TS_c = meta[0].type(torch.FloatTensor).to(device)
+    TS_p = meta[1].type(torch.FloatTensor).to(device)
+    TS_t = meta[2].type(torch.FloatTensor).to(device)
+    pois = meta[4].type(torch.FloatTensor).to(device)
 
     n_layer_spatial, n_layer_temporal, n_head_spatial, n_head_temporal, dim_feat = \
         int(config['stloglonet']['n_layer_spatial']), \
